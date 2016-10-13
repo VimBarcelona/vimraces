@@ -1,3 +1,0 @@
-main = do
-  num <- getString
-  putStrLn $ "you typed: " ++ num
