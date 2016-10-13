@@ -6,16 +6,18 @@ function add_challenge() {
   CHALLENGES+=($(ls challenges/*.before | shuf | head -n 1 | grep -Eo [0-9]+))
 }
 
-rm -rf template/* player1 player2
+rm -rf template/* player1/* player2/*
 
 for i in {1..5}; do add_challenge; done
 
 i=0
 for challenge in ${CHALLENGES[@]}; do
   i=$((i + 1))
+  cp -r challenges/$challenge.before template/$i.before.original
   cp -r challenges/$challenge.before template/$i.before
+  cp -r challenges/$challenge.after template/$i.after.original
   cp -r challenges/$challenge.after template/$i.after
 done
 
-cp -R template player1
-cp -R template player2
+cp -R template/* player1
+cp -R template/* player2

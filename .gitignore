@@ -1,3 +1,5 @@
 player1
 player2
-nodemodules
+node_modules
+template/*
+.vagrant

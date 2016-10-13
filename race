@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 time_output=$(mktemp)
+
+cp $1.before.original $1.before
+cp $1.after.original $1.after
+
 $(which time) -o $time_output -f "%e seconds" vim -u NONE $1.before $1.after -c "source ../vimraces.vim|RaceTo $1.after"
 seconds_ellapsed=$(cat $time_output)
 
