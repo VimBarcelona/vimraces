@@ -1,6 +1,10 @@
 command! -nargs=1 -complete=file RaceTo :call SetupVimRaces(<q-args>)
 
 function! SetupVimRaces(targetFile)
+    split
+    norm j
+    bnext
+    norm k
     let s:vimRacesTarget = a:targetFile
     augroup VimRace
         autocmd!
@@ -12,6 +16,8 @@ function! CompareVimRaces()
     execute("silent! !diff % ".s:vimRacesTarget)
     redraw!
     if v:shell_error == 0
-        execute("!figlet Winner")
+        wqa
+    else
+        echo "before/after don't match!"
     endif
 endfunction

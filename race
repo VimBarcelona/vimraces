@@ -1,3 +1,16 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-vim -u NONE $1.{before,after} -c "next|prev|source ../vimraces.vim|RaceTo $1.after"
+time_output=$(mktemp)
+$(which time) -o $time_output -f "%e seconds" vim -u NONE $1.before $1.after -c "source ../vimraces.vim|RaceTo $1.after"
+seconds_ellapsed=$(cat $time_output)
+
+diff $1.before $1.after > /dev/null
+diff_exit_status=$?
+
+if [[ $diff_exit_status -eq 0 ]]; then
+  cowsay "Yay! You did it just $seconds_ellapsed."
+  echo "$1: $seconds_ellapsed" >> results
+else
+  cowsay "Ouch! Before/after don't match :("
+  echo "$1: DNF" >> results
+fi
